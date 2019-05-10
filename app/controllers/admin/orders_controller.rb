@@ -3,9 +3,10 @@ class Admin::OrdersController < ApplicationController
 
     before_action :authenticate_user!
     before_action :admin_required
+    before_action :set_order , only: [:show, :ship, :shipped, :cancel, :return]
   
     def index
-      @orders = Order.order("id DESC")
+        @orders = Order.order("id DESC")
     end
 
     def show

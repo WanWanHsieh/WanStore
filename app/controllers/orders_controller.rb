@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
     before_action :authenticate_user!, only: [:create]
+    before_action :set_token , only: [:show, :pay_with_alipay, :pay_with_wechat, :apply_to_cancel]
 
     def create
       @order = Order.new(order_params)
@@ -25,12 +26,10 @@ class OrdersController < ApplicationController
     end
   
     def show
-        @order = Order.find_by_token(params[:id])
         @product_lists = @order.product_lists
     end
 
     def pay_with_alipay
-        @order = Order.find_by_token(params[:id])
         @order.set_payment_with!("alipay")
         @order.make_payment!
     
@@ -38,7 +37,6 @@ class OrdersController < ApplicationController
     end
     
     def pay_with_wechat
-        @order = Order.find_by_token(params[:id])
         @order.set_payment_with!("wechat")
         @order.make_payment!
     
@@ -46,7 +44,6 @@ class OrdersController < ApplicationController
     end
 
     def apply_to_cancel
-        @order = Order.find_by_token(params[:id])
         OrderMailer.apply_cancel(@order).deliver!
         flash[:notice] = "已提交申请"
         redirect_to :back
@@ -55,5 +52,10 @@ class OrdersController < ApplicationController
     private
     def order_params
       params.require(:order).permit(:billing_name, :billing_address, :shipping_name, :shipping_address)
+    end
+
+    private
+    def set_token
+      @order = Order.find_by_token(params[:id])
     end
 end
