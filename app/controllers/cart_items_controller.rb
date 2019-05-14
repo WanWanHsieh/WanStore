@@ -5,7 +5,7 @@ class CartItemsController < ApplicationController
         @product = @cart_item.product
         @cart_item.destroy
     
-        flash[:warning] = "成功将 #{@product.title} 从购物车删除!"
+        flash[:warning] = "成功將 #{@product.title} 從購物車刪除!"
         redirect_to :back
     end
 
@@ -14,9 +14,9 @@ class CartItemsController < ApplicationController
         @cart_item = @cart.cart_items.find_by(product_id: params[:id])
         if @cart_item.product.quantity >= cart_item_params[:quantity].to_i
             @cart_item.update(cart_item_params)
-            flash[:notice] = "成功变更数量"
+            flash[:notice] = "成功變更數量"
         else
-            flash[:warning] = "数量不足以加入购物车"
+            flash[:warning] = "數量不足加入購物車"
         end
     
         redirect_to carts_path

@@ -4,14 +4,14 @@
       <div>
       <%= link_to product_path(product) do %>
         <% if product.image.present? %>
-          <%= image_tag(product.image.thumb.url, class: "thumbnail" , style: "width: 50%; margin: 0 auto;") %>
+          <%= image_tag(product.image.thumb.url, class: "thumbnail pic-style" , style: "width: 50%; margin: 0 auto;") %>
         <% else %>
           <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "thumbnail", style:"margin: 0 auto;") %>
         <% end %>
       <% end %>
       <br/>
-      商品: <%= product.title %><br/>
-      價格: <%= product.price %>
+      <div>商品: <%= product.title %></div>
+      <div>價格: <%= product.price %></div>
     </div>
   </div>
   <% end %>
